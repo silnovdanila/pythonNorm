@@ -80,8 +80,8 @@ a {
     color: white;
 	display: block;
 	padding: 0 0 10px;
-	text-align: center;
-	color: #fff;
+	margin-left: 35px;
+	color: #87CEFA;
 	text-decoration: none;
 	transition: .3s;
 }
@@ -90,16 +90,23 @@ a: hover {
     color: #4B0082;
     text-decoration: underline;
 }
+header{
+    background-color: #000000;
+    color: white;
+	padding: 12px;
+}
+h2{
+    font-size:30px;
+    color: #F5F5DC;
+}
 </style>
     <title>{{title}}</title>
 </head>
 <body>
 <header>
-
-
-
-
-
+    <h2>
+        IRAMFan
+    </h2>
 </header>
 <main role="main" class="form">
 <h1>Регистрация</h1>
@@ -142,7 +149,7 @@ a: hover {
         {% endfor %}
     </p>
     {{message}}
-    <a href="/login">Я уже смешарик</a> <a href="/forgot">Забыли пароль?</a>
+    <a href="/login">Я уже смешарик</a>
     <p class="input-form">{{ form.submit(type="submit")}}</p>
 
 
