@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+    <title>{{title}}</title>
+    <style type="text/css">
+header{
+    background-color: #000000;
+    color: white;
+	padding: 12px;
+}
+h2{
+    font-size:30px;
+    color: #F5F5DC;
+}
+.profile-ava {
+    width: 300px;
+    height: 300px;
+}
+.profile-panel{
+    text-align: center:
+}
+.profile-info{
+    border: 3px solid #8B008B;
+}
+    </style>
+</head>
+<body>
+
+<header>
+    <table><tr>
+        <td width="40%">
+    <a href="/"><h2>
+        IRAMFan
+    </h2></a></td>
+        <td width="30%">
+            <a href="{{url_for('logout')}}">Выйти из профиля</a>
+        <td/>
+        <td width="30%">
+        <ul class="profile-info">
+                <li>{{ current_user.name }}</li>
+                <li>{{ current_user.email }}</li>
+            </ul>
+    </td></tr></table>
+</header>
+<table border="0" class="profile-table">
+    <tr>
+        <td valign="top">
+            <div class="profile-ava"><img src="{{ url_for('userava') }}"></div>
+            <div class="profile-load">
+                <form action="{{url_for('upload')}}" method="POST" enctype="multipart/form-data">
+                    <p><input type="file" name="file">
+                    <p><input type="submit" value="Загрузить">
+                </form>
+            </div>
+
+
+        </td>
+        <td valign="top" class="profile-panel">
+            <a href="news" class="btn btn-secondary">Добавить новость</a><br>
+            <p>
+            {% if not current_user.authentication%}
+            <br>
+                <a>Вы не подтвердили свою почту,<br> некоторые функции будут недоступны!!!</a><br>
+                <a>Дабы подтвердить почту, <br>перейдите по ссылке в сообщении на вашей почте.</a>
+            {% endif %}
+            <h1>Ваш блог</h1>
+            {% for item in news%}
+            <div class="col-md6 border rounded">
+                <h2>{{item.title}}</h2>
+                <div>
+                    {{item.content}}
+                </div>
+                <div>
+                    Автор - {{item.user.name}}, Дата написания - {{item.created_date}}
+                </div>
+                {% if current_user.is_authenticated and current_user == item.user %}
+                <div>
+                    <a href="/news/{{ item.id }}" class="btn btn-warning">
+                        Изменить
+                    </a>
+                    <a href="/news_delete/{{ item.id }}" class="btn btn-danger">
+                        Удалить
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </td>
+    </tr>
+</table>
+</body>
+</html>
