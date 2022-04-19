@@ -25,6 +25,7 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     news = orm.relation("News", back_populates='user')
     admin = sqlalchemy.Column(sqlalchemy.Integer)
     avatar = sqlalchemy.Column(sqlalchemy.BLOB)
+    banned = sqlalchemy.Column(sqlalchemy.Boolean)
 
     def set_password(self, password):
         self.hashed_password = generate_password_hash(password)

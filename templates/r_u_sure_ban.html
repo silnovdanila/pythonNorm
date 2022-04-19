@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Хм. Вы Админ</title>
+    <style type="text/css">
+header{
+    background-color: #000000;
+    color: white;
+	padding: 12px;
+}
+h2{
+    font-size:30px;
+    color: #F5F5DC;
+}
+.profile-ava {
+    width: 300px;
+    height: 300px;
+}
+.profile-panel{
+    text-align: center:
+}
+.profile-info{
+    border: 3px solid #8B008B;
+}
+#footer {
+    left: 0; bottom: 0; /* Левый нижний угол */
+    padding: 10px; /* Поля вокруг текста */
+    background: #2F4F4F; /* Цвет фона */
+    color: #fff; /* Цвет текста */
+    width: 100%; /* Ширина слоя */
+   }
+
+body {
+	background: linear-gradient(rgba(0,0,0,.3),rgba(0,0,0,.3)), url({{ url_for('static', filename='fon2.jpg') }});
+	-webkit-background-size: cover;
+	background-size: cover;
+	background-attachment: fixed;
+	font-family: sans-serif;
+}
+.form {
+    color: white;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	background: rgba(0,0,0,.7);
+	border-radius: 25px;
+}
+
+.form h1 {
+    color: white;
+	margin: 30px 100px;
+	padding: 0;
+	text-align: center;
+	color: #fff;
+	font-size: 30px;
+	text-transform: uppercase;
+}
+
+.input-form {
+	margin: 15px 40px;
+	text-align: center;
+}
+
+.input-form input {
+	padding: 10px;
+	width: 100%;
+	font-size: 20px;
+	background: none;
+	outline: none;
+	border: 1px solid #fff;
+	box-sizing: border-box;
+	background: #ffffff;
+	font-size: 16pt;
+	border-radius: 10px;
+}
+
+.input-form input[type="text"]:focus, .input-form input[type="password"]:focus, .input-form input[type="email"]:focus {
+	border: 1px solid #0fc3f5;
+	background: #ffffff;
+}
+
+.input-form input[type="submit"] {
+    color: white;
+	margin-top: 0px;
+	color: #fff;
+	font-weight: bold;
+	text-transform: uppercase;
+	border: none;
+	background: #0fc3f5;
+	transition: .3s;
+	border-radius: 20px;
+}
+
+.input-form input[type="submit"]:hover {
+    color: white;
+	background: #4442db;
+}
+
+a {
+    color: white;
+	display: block;
+	padding: 0 0 10px;
+	text-align: center;
+	color: #87CEFA;
+	text-decoration: none;
+	transition: .3s;
+	float:left;
+    margin:0 10px;
+}
+a: hover {
+    font-size:15px;
+    color: #4B0082;
+    text-decoration: underline;
+}
+.lol{
+    margin-left: 70px;
+}
+header{
+    background-color: #000000;
+    color: white;
+	padding: 12px;
+}
+h2{
+    font-size:30px;
+    color: #F5F5DC;
+}
+
+    </style>
+</head>
+<body>
+<header>
+    <table>
+        <tr>
+            <td width="40%">
+                <a href="/"><h2>
+                    IRAMFan
+                </h2></a></td>
+            <td width="30%">
+                {% if current_user.is_authenticated %}
+                <a href="{{url_for('logout')}}">Выйти из профиля</a>
+                {% endif %}
+            <td/>
+            <td width="30%">
+                {% if current_user.is_authenticated %}
+                <ul class="profile-info">
+                    <a href="/users/{{current_user.id}}">
+                        <li>{{ current_user.name }}</li>
+                    </a>
+                    <a href="/users/{{current_user.id}}">
+                        <li>{{ current_user.email }}</li>
+                    </a>
+                </ul>
+                {% else %}
+                <p>
+                    <a class="btn btn-primary " href="/register">Зарегистрироваться</a>
+                    <a class="btn btn-success" href="/login">Войти</a>
+                </p>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+</header>
+<form method="post" class="form">
+    <a>Вы уверены, что хотите забанить {{ name }} с id {{ id }}</a><br>
+    <p class="input-form">{{ form.csrf_token }} {{ form.submit(type="submit") }}</p>
+    {% for error in form.submit.errors %}
+    <p class="alert alert-danger" role="alert">
+        {{ error }}
+        {% endfor %}
+        <a>{{ message }}</a>
+</form>
+</body>
+</html>

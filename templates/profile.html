@@ -51,25 +51,27 @@ h2{
 <table border="0" class="profile-table">
     <tr>
         <td valign="top">
-            <div class="profile-ava"><img src="{{ url_for('userava') }}"></div>
+            <div class="profile-ava"><img src="userava/{{user.id}}" width="280px" height="280px"></div>
+            {% if current_user.id == user.id %}
             <div class="profile-load">
                 <form action="{{url_for('upload')}}" method="POST" enctype="multipart/form-data">
                     <p><input type="file" name="file">
                     <p><input type="submit" value="Загрузить">
                 </form>
             </div>
-
-
+            {% endif %}
         </td>
         <td valign="top" class="profile-panel">
-            <a href="news" class="btn btn-secondary">Добавить новость</a><br>
             <p>
-            {% if not current_user.authentication%}
+            {% if not current_user.authentication and current_user.id == user.id%}
             <br>
                 <a>Вы не подтвердили свою почту,<br> некоторые функции будут недоступны!!!</a><br>
-                <a>Дабы подтвердить почту, <br>перейдите по ссылке в сообщении на вашей почте.</a>
+                <a>Дабы подтвердить почту, <br>перейдите по ссылке в сообщении на вашей почте.<br>Возможно сообщение попало в спам</a>
             {% endif %}
-            <h1>Ваш блог</h1>
+            <h1>Это блог {{user.name}}</h1>
+            {% if current_user.id == user.id %}
+            <a href="{{url_for('add_news')}}" class="btn btn-secondary">Добавить новость</a><br>
+            {% endif %}
             {% for item in news%}
             <div class="col-md6 border rounded">
                 <h2>{{item.title}}</h2>

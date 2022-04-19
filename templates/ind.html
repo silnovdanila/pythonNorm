@@ -1,20 +1,135 @@
-{% extends "base.html" %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+    <title>{{title}}</title>
+    <style type="text/css">
+header{
+    background-color: #000000;
+    color: white;
+	padding: 12px;
+}
+h2{
+    font-size:30px;
+    color: #F5F5DC;
+}
+.profile-ava {
+    width: 300px;
+    height: 300px;
+}
+.profile-panel{
+    text-align: center:
+}
+.profile-info{
+    border: 3px solid #8B008B;
+}
+#footer {
+    left: 0; bottom: 0; /* Левый нижний угол */
+    padding: 10px; /* Поля вокруг текста */
+    background: #2F4F4F; /* Цвет фона */
+    color: #fff; /* Цвет текста */
+    width: 100%; /* Ширина слоя */
+   }
 
-{% block content %}
-{% if current_user.is_authenticated %}
-    <a href="news" class="btn btn-secondary">Добавить новость</a>
+
+
+    </style>
+</head>
+<body>
+
+<header>
+    <table>
+        <tr>
+            <td width="40%">
+                <a href="/"><h2>
+                    IRAMFan
+                </h2></a></td>
+            <td width="30%">
+                {% if current_user.is_authenticated %}
+                <a href="{{url_for('logout')}}">Выйти из профиля</a>
+                {% endif %}
+            <td/>
+            <td width="30%">
+                {% if current_user.is_authenticated %}
+                <ul class="profile-info">
+                    <a href="/users/{{current_user.id}}">
+                        <li>{{ current_user.name }}</li>
+                    </a>
+                    <a href="/users/{{current_user.id}}">
+                        <li>{{ current_user.email }}</li>
+                    </a>
+                </ul>
+                {% else %}
+                <p>
+                    <a class="btn btn-primary " href="/register">Зарегистрироваться</a>
+                    <a class="btn btn-success" href="/login">Войти</a>
+                </p>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+</header>
+
+<h1>Новости</h1>
+{% if current_user.admin != 0 %}
+<a href="admin_if_you_admin" class="btn btn-secondary">Забанить по id</a>
 {% endif %}
-<h1>Записи в блоге</h1>
+{% if current_user.is_authenticated %}
+<a href="news" class="btn btn-secondary">Добавить новость</a>
+{% endif %}
+
 {% for item in news%}
 <div class="col-md6 border rounded">
-    <h2>{{item.title}}</h2>
-    <div>
-        {{item.content}}
-    </div>
-    <div>
-        Автор - {{item.user.name}}, Дата написания - {{item.created_date}}
-    </div>
-    {% if current_user.is_authenticated and current_user == item.user %}
+
+    <table>
+        <tr>
+            <td width="50%">
+                <a href="/users/{{item.user.id}}">
+                <table>
+                    <tr>
+                        <td width="15%">
+                            <img src="/users/userava/{{item.user.id}}" width="80px" height="80px">
+                        </td>
+                        <td width="15%">
+                            <a>Автор - {{item.user.name}}</a>
+                        </td>
+                        <td width="60%">
+                            Дата написания - {{item.created_date}}
+                        </td>
+                    </tr>
+                </table>
+                    </a>
+
+
+                <a>{{item.title}}</a>
+                <br>
+                <a>
+                    <div>
+                        {{item.content}}
+                    </div>
+                </a>
+            </td>
+
+            <td width="50%">
+                {% if item.img %}
+                <div>
+                    <img src="/news/newsimage/{{item.id}}" width="260px" height="260px">
+                </div>
+                {% endif %}
+            </td>
+
+        </tr>
+    </table>
+    <a href="/see_news/{{ item.id }}">Читать подробнее</a>
+
+    <br>
+    <br>
+    {% if (current_user.is_authenticated and current_user == item.user) or current_user.admin != 0 %}
     <div>
         <a href="/news/{{ item.id }}" class="btn btn-warning">
             Изменить
@@ -23,7 +138,18 @@
             Удалить
         </a>
     </div>
-{% endif %}
+    {% endif %}
+
 </div>
+<br>
+<br>
 {% endfor %}
-{% endblock %}
+<div id="footer">
+    {% if current_user.admin == 0 %}
+    <a href="{{ url_for('nyancat') }}"> Для настоящих ценителей</a>
+    {% else %}
+    <a>Вы админ, а не ценитель!!1</a>
+    {% endif %}
+</div>
+</body>
+</html>

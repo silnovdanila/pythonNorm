@@ -1,3 +1,4 @@
+import sqlite3
 from datetime import datetime
 
 from flask import jsonify
@@ -60,7 +61,7 @@ class UsersListResource(Resource):
             authentication=args["authentication"],
             created_date=datetime.now(),
             admin=args["admin"],
-            avatar="/static/images/defoult.png"
+            banned=False
         )
         news.set_password(args["password"])
         session.add(news)

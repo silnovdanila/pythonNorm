@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Для ценителей</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+    <style type="text/css">
+header{
+    background-color: #000000;
+    color: white;
+	padding: 12px;
+}
+h2{
+    font-size:30px;
+    color: #F5F5DC;
+}
+.profile-ava {
+    width: 300px;
+    height: 300px;
+}
+.profile-panel{
+    text-align: center:
+}
+.profile-info{
+    border: 3px solid #8B008B;
+}
+
+    </style>
+</head>
+<body>
+
+<header>
+    <table>
+        <tr>
+            <td width="40%">
+                <a href="/"><h2>
+                    IRAMFan
+                </h2></a></td>
+            <td width="30%">
+                {% if current_user.is_authenticated %}
+                <a href="{{url_for('logout')}}">Выйти из профиля</a>
+                {% endif %}
+            <td/>
+            <td width="30%">
+                {% if current_user.is_authenticated %}
+                <ul class="profile-info">
+                    <a href="/users/{{current_user.id}}">
+                        <li>{{ current_user.name }}</li>
+                    </a>
+                    <a href="/users/{{current_user.id}}">
+                        <li>{{ current_user.email }}</li>
+                    </a>
+                </ul>
+                {% else %}
+                <p>
+                    <a class="btn btn-primary " href="/register">Зарегистрироваться</a>
+                    <a class="btn btn-success" href="/login">Войти</a>
+                </p>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+</header>
+
+<img src="{{ gif }}" alt="я джифка"><br>
+<h1>{{ message }}</h1>
+
+</body>
+</html>

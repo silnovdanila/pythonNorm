@@ -24,3 +24,4 @@ class News(SqlAlchemyBase, SerializerMixin):
     categories = orm.relation("Category",
                               secondary="association",
                               backref="news")
+    img = sqlalchemy.Column(sqlalchemy.BLOB)

@@ -1,29 +1,146 @@
-{% extends "base.html" %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+    <title>{{title}}</title>
+    <style type="text/css">
+header{
+    background-color: #000000;
+    color: white;
+	padding: 12px;
+}
+h2{
+    font-size:30px;
+    color: #F5F5DC;
+}
+.profile-ava {
+    width: 300px;
+    height: 300px;
+}
+.profile-panel{
+    text-align: center:
+}
+.profile-info{
+    border: 3px solid #8B008B;
+}
+body {
+	background: linear-gradient(rgba(0,0,0,.3),rgba(0,0,0,.3)), url({{ url_for('static', filename='fon.jpg') }});
+	-webkit-background-size: cover;
+	background-size: cover;
+	background-attachment: fixed;
+	font-family: sans-serif;
+	align: middle;
+}
 
-{% block content %}
-<h1>Добавление новости</h1>
-<form action="" method="post">
-    {{ form.hidden_tag() }}
-    <p>
-        {{ form.title.label }}<br>
-        {{ form.title(class="form-control") }}<br>
-        {% for error in form.title.errors %}
-            <p class="alert alert-danger" role="alert">
-                {{ error }}
-            </p>
+.form {
+    color: white;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	background: rgba(0,0,0,.7);
+	border-radius: 25px;
+	width: 60%;
+}
+.form-control{
+    margin-left: 5%;
+    width: 90%;
+}
+.input-form input[type="text"]:focus, .input-form input[type="password"]:focus, .input-form input[type="email"]:focus {
+	border: 1px solid #0fc3f5;
+	background: #ffffff;
+}
+
+.hh {
+    color: white;
+	margin-top: 0px;
+	color: #fff;
+	font-weight: bold;
+	text-transform: uppercase;
+	border: none;
+	background: #0fc3f5;
+	transition: .3s;
+	border-radius: 20px;
+}
+.input-form input[type="submit"] {
+    color: white;
+	margin-top: 0px;
+	color: #fff;
+	font-weight: bold;
+	text-transform: uppercase;
+	border: none;
+	background: #0fc3f5;
+	transition: .3s;
+	border-radius: 20px;
+}
+
+.input-form input[type="submit"]:hover {
+    color: white;
+	background: #4442db;
+}
+
+    </style>
+
+</head>
+<body>
+<header>
+    <table>
+        <tr>
+            <td width="40%">
+                <a href="/"><h2>
+                    IRAMFan
+                </h2></a></td>
+            <td width="30%">
+                <a href="{{url_for('logout')}}">Выйти из профиля</a>
+            <td/>
+            <td width="30%">
+                <ul class="profile-info">
+                    <li>{{ current_user.name }}</li>
+                    <li>{{ current_user.email }}</li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+</header>
+<main role="main" class="form">
+    <h1>{{title}}</h1>
+    <form method="post" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.title.label }}<br>
+            {{ form.title(class="form-control") }}<br>
+            {% for error in form.title.errors %}
+        <p class="alert alert-danger" role="alert">
+            {{ error }}
+        </p>
         {% endfor %}
-    </p>
-    <p>
-        {{ form.content.label }}<br>
-        {{ form.content(class="form-control") }}<br>
-        {% for error in form.content.errors %}
-            <p content="alert alert-danger" role="alert">
-                {{ error }}
-            </p>
+        <p>
+            {{ form.content.label }}<br>
+            {{ form.content(class="form-control") }}<br>
+            {% for error in form.content.errors %}
+        <p content="alert alert-danger" role="alert">
+            {{ error }}
+        </p>
         {% endfor %}
-    </p>
-    <p>{{ form.is_private() }} {{ form.is_private.label }}</p>
-    <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
-    {{message}}
-</form>
-{% endblock %}
+        <input type="file" name="file">
+        {% if image%}
+        <img src="newsimage/{{new}}" width="140px" height="140px">
+        {% endif %}
+        <p>{{ form.is_private() }} {{ form.is_private.label }}</p>
+        <p class="input-form">{{ form.csrf_token }} {{ form.submit(type="submit") }}</p>
+        {% for error in form.submit.errors %}
+        <p content="alert alert-danger" role="alert">
+            {{ error }}
+            {% endfor %}
+            {{message}}
+    </form>
+
+</main>
+</body>
+</html>
+
