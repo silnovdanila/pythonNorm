@@ -76,8 +76,10 @@ h2{
 </header>
 
 <h1>Новости</h1>
+{% if current_user.is_authenticated %}
 {% if current_user.admin != 0 %}
 <a href="admin_if_you_admin" class="btn btn-secondary">Забанить по id</a>
+{% endif %}
 {% endif %}
 {% if current_user.is_authenticated %}
 <a href="news" class="btn btn-secondary">Добавить новость</a>
@@ -145,10 +147,12 @@ h2{
 <br>
 {% endfor %}
 <div id="footer">
+    {% if current_user.is_authenticated %}
     {% if current_user.admin == 0 %}
     <a href="{{ url_for('nyancat') }}"> Для настоящих ценителей</a>
     {% else %}
     <a>Вы админ, а не ценитель!!1</a>
+    {% endif %}
     {% endif %}
 </div>
 </body>
