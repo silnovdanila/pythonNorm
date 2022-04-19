@@ -2,10 +2,10 @@ import datetime
 import os
 import smtplib
 import sqlite3
+import sys
 from email.mime.text import MIMEText
 from random import choice
 
-import requests
 from flask import Flask, render_template, request, make_response, url_for, flash
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
 from flask_restful import Api
@@ -145,9 +145,10 @@ def reqister():
             admin=0,
             created_date=datetime.datetime.now(),
             banned=False)
-        f = requests.get(mainLink + "static/defoult.png")
-        i = f.read()
-        user.avatar = sqlite3.Binary(i)
+        path = os.path.dirname(sys.modules['__main__'].__file__)
+        with open(path + 'static/defoult.png', "rb") as f:
+            i = f.read()
+            user.avatar = sqlite3.Binary(i)
         user.set_password(form.password.data)
         db_sess.add(user)
         db_sess.commit()
