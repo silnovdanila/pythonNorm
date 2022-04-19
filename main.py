@@ -240,21 +240,17 @@ def edit_news(id):
 
 
 @app.route("/news/newsimage/<int:id>")
-@login_required
 def newsimage(id):
-    if not current_user.banned:
-        db_sess = db_session.create_session()
-        news = db_sess.query(News).filter(News.id == id).first()
-        image = "1"
-        if news is not None:
-            img = news.img
-            if img is not None:
-                image = img
+    db_sess = db_session.create_session()
+    news = db_sess.query(News).filter(News.id == id).first()
+    image = "1"
+    if news is not None:
+        img = news.img
+        if img is not None:
+            image = img
 
-        db_sess.commit()
-        return image
-    else:
-        return make_response("Ахахаха чел ты в бане")
+    db_sess.commit()
+    return image
 
 
 def getAvatar(appp, id):
