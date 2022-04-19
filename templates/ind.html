@@ -131,7 +131,7 @@ h2{
 
     <br>
     <br>
-    {% if (current_user.is_authenticated and current_user == item.user) or current_user.admin != 0 %}
+    {% if (current_user.is_authenticated and current_user == item.user) or (current_user.admin != 0 and current_user.is_authenticated) %}
     <div>
         <a href="/news/{{ item.id }}" class="btn btn-warning">
             Изменить
