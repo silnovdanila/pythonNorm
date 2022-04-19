@@ -28,25 +28,29 @@ h2{
 .profile-info{
     border: 3px solid #8B008B;
 }
+
     </style>
 </head>
 <body>
 
 <header>
-    <table><tr>
-        <td width="40%">
-    <a href="/"><h2>
-        IRAMFan
-    </h2></a></td>
-        <td width="30%">
-            <a href="{{url_for('logout')}}">Выйти из профиля</a>
-        <td/>
-        <td width="30%">
-        <ul class="profile-info">
-                <li>{{ current_user.name }}</li>
-                <li>{{ current_user.email }}</li>
-            </ul>
-    </td></tr></table>
+    <table>
+        <tr>
+            <td width="40%">
+                <a href="/"><h2>
+                    IRAMFan
+                </h2></a></td>
+            <td width="30%">
+                <a href="{{url_for('logout')}}">Выйти из профиля</a>
+            <td/>
+            <td width="30%">
+                <ul class="profile-info">
+                    <li>{{ current_user.name }}</li>
+                    <li>{{ current_user.email }}</li>
+                </ul>
+            </td>
+        </tr>
+    </table>
 </header>
 <table border="0" class="profile-table">
     <tr>
@@ -63,25 +67,64 @@ h2{
         </td>
         <td valign="top" class="profile-panel">
             <p>
-            {% if not current_user.authentication and current_user.id == user.id%}
-            <br>
+                {% if not current_user.authentication and current_user.id == user.id%}
+                <br>
                 <a>Вы не подтвердили свою почту,<br> некоторые функции будут недоступны!!!</a><br>
-                <a>Дабы подтвердить почту, <br>перейдите по ссылке в сообщении на вашей почте.<br>Возможно сообщение попало в спам</a>
-            {% endif %}
+                <a>Дабы подтвердить почту, <br>перейдите по ссылке в сообщении на вашей почте.<br>Возможно сообщение
+                    попало в спам</a>
+                {% endif %}
             <h1>Это блог {{user.name}}</h1>
             {% if current_user.id == user.id %}
             <a href="{{url_for('add_news')}}" class="btn btn-secondary">Добавить новость</a><br>
             {% endif %}
             {% for item in news%}
             <div class="col-md6 border rounded">
-                <h2>{{item.title}}</h2>
-                <div>
-                    {{item.content}}
-                </div>
-                <div>
-                    Автор - {{item.user.name}}, Дата написания - {{item.created_date}}
-                </div>
-                {% if current_user.is_authenticated and current_user == item.user %}
+
+                <table>
+                    <tr>
+                        <td width="50%">
+                            <a href="/users/{{item.user.id}}">
+                                <table>
+                                    <tr>
+                                        <td width="15%">
+                                            <img src="/users/userava/{{item.user.id}}" width="80px" height="80px">
+                                        </td>
+                                        <td width="15%">
+                                            <a>Автор - {{item.user.name}}</a>
+                                        </td>
+                                        <td width="60%">
+                                            Дата написания - {{item.created_date}}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </a>
+
+
+                            <a>{{item.title}}</a>
+                            <br>
+                            <a>
+                                <div>
+                                    {{item.content}}
+                                </div>
+                            </a>
+                        </td>
+
+                        <td width="50%">
+                            {% if item.img %}
+                            <div>
+                                <img src="/news/newsimage/{{item.id}}" width="260px" height="260px">
+                            </div>
+                            {% endif %}
+                        </td>
+
+                    </tr>
+                </table>
+                <a href="/see_news/{{ item.id }}">Читать подробнее</a>
+
+                <br>
+                <br>
+                {% if (current_user.is_authenticated and current_user == item.user) or (current_user.admin != 0 and
+                current_user.is_authenticated) %}
                 <div>
                     <a href="/news/{{ item.id }}" class="btn btn-warning">
                         Изменить
@@ -91,7 +134,10 @@ h2{
                     </a>
                 </div>
                 {% endif %}
+
             </div>
+            <br>
+            <br>
             {% endfor %}
         </td>
     </tr>
