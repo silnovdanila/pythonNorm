@@ -145,7 +145,7 @@ def reqister():
             admin=0,
             created_date=datetime.datetime.now(),
             banned=False)
-        f = requests.get(mainLink + url_for('static', filename='defoult.png'))
+        f = requests.get(mainLink + "static/defoult.png")
         i = f.read()
         user.avatar = sqlite3.Binary(i)
         user.set_password(form.password.data)
