@@ -1,9 +1,9 @@
 import datetime
+import os
 import smtplib
 import sqlite3
 from email.mime.text import MIMEText
 from random import choice
-import waitress
 
 from flask import Flask, render_template, request, make_response, url_for, flash
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
@@ -27,7 +27,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 app.config['SECRET_KEY'] = 'SILNOVDANYA_secret_key'
 app.config["SQLALCHEMY_ECHO"] = True
-mainLink = "http://127.0.0.1:5000/"
+mainLink = "https://whispering-hollows-34027.herokuapp.com/"
 MAX_CONTENT_LENGTH = 1024 * 1024
 
 
