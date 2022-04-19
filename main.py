@@ -74,7 +74,9 @@ def main():
     api.add_resource(users_resources.UsersListResource, '/neriuulf7vw9da4dp316cmlq/users')
     api.add_resource(users_resources.UsersResource, '/neriuulf7vw9da4dp316cmlq/users/<int:users_id>')
     db_session.global_init("db/blogs.db")
-    waitress.serve(app, host="0.0.0.0", port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
+    # waitress.serve(app, host="0.0.0.0", port=5000)
 
 
 @login_manager.user_loader
